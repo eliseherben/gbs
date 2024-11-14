@@ -2,3 +2,6 @@ streamlit == 1.36.0
 pandas == 2.1.4
 scikit-learn == 1.2.2
 numpy == 1.26.4
+sklearn==0.0
+mpmath==1.2.1
+pillow==8.2.0
