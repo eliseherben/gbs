@@ -134,7 +134,7 @@ model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=1
 model.fit(X_train, y_train)
 
 # Streamlit applicatie
-st.title('Voorspelling op de uitkomst van GBS')
+st.title('Voorspelling uitkomst GBS')
 
 # Invoeropties voor de gebruiker met placeholders
 leeftijd = st.number_input('Leeftijd', min_value=0, max_value=120, value=None, step=1, format="%d", key='_leeftijd', on_change = set_leeftijd, placeholder='Voer de leeftijd in')
