@@ -699,7 +699,6 @@ hersenzenuw = st.selectbox('Uitval/aantasting hersenzenuwen bij binnenkomst', op
 # Voorbeeld dataframe met de nieuwe observatie
 input_data = pd.DataFrame({
     'Age': [st.session_state.Age],
-    'Sex': [1 if geslacht == 'Vrouw' else 0],
     'MRC_sum_e': [spierkracht_e],
     'MRC_sum_w1': [spierkracht_w1],
     'Pain_e_1.0': [1 if pijn == "Ja" else 0],
