@@ -676,6 +676,7 @@ def predict_outcome(model, X_input):
     # Standaardiseren van de nieuwe invoer
     scaler = StandardScaler()
     X_input_scaled = scaler.fit_transform(X_input)
+    st.dataframe(X_input_scaled)
     
     # Kansvoorspelling maken
     chances = model.predict(X_input_scaled)
