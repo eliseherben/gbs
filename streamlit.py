@@ -181,7 +181,7 @@ if "CNI_Oculomotor_e" not in st.session_state:
     
 st.session_state._CNI_Oculomotor_e = st.session_state.CNI_Oculomotor_e
 
-def set_CNI_e():
+def set_CNI_Oculomotor_e():
     st.session_state.CNI_Oculomotor_e = st.session_state._CNI_Oculomotor_e
 
 
@@ -669,8 +669,6 @@ with open('multinomial_logit_model.pkl', 'rb') as f:
 
 # with open('data_X_combined_selected.pkl', 'rb') as f:
 #     X_combined_selected = pickle.load(f)
-
-# with open('data_y_combined.pkl', 'rb') as f:
 #     y_combined = pickle.load(f)
     
 # Functie voor voorspelling
