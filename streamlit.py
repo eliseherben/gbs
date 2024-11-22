@@ -680,7 +680,7 @@ def predict_outcome(model, X_input):
     st.dataframe(X_input_scaled)
     
     # Kansvoorspelling maken
-    chances = model.predict(X_input_scaled)
+    chances = model.predict(X_input)
     chance_df = pd.DataFrame(chances, columns=['niet lopen', 'lopen', 'dood'])
     return chance_df
 
