@@ -676,7 +676,7 @@ def predict_outcome(model, X_input):
     # Standaardiseren van de nieuwe invoer
     scaler = StandardScaler()
     X_input_scaled = scaler.fit_transform(X_input)
-    st.dataframe(X_input)       
+    st.dataframe(X_input)
     st.dataframe(X_input_scaled)
     
     # Kansvoorspelling maken
@@ -699,7 +699,8 @@ hersenzenuw = st.selectbox('Uitval/aantasting hersenzenuwen bij binnenkomst', op
 
 # Voorbeeld dataframe met de nieuwe observatie
 input_data = pd.DataFrame({
-    'Age': [st.session_state.Age],
+    'Age': [leeftijd],
+    'Sex': [1 if geslacht == 'Vrouw' else 0],
     'MRC_sum_e': [spierkracht_e],
     'MRC_sum_w1': [spierkracht_w1],
     'Pain_e_1.0': [1 if pijn == "Ja" else 0],
@@ -708,8 +709,6 @@ input_data = pd.DataFrame({
     'Sens_deficits_e_2.0': [1 if gevoelsstoornis_e == "nvt" else 0],
     'CNI_e_1.0': [1 if hersenzenuw == "Ja" else 0]
 })
-
-st.dataframe(input_data)
 
 # Voorspelling maken
 if st.button('Voorspelling maken'):
