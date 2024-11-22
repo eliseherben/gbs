@@ -657,6 +657,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import statsmodels.api as sm
+import pickle
 
 # Functie voor het laden van de dataset en het model (je kunt je model hier laden of trainen)
 # Hier gaan we uit van een geladen 'final_result' van je eerdere model (Multinomial Logit)
