@@ -679,7 +679,7 @@ def predict_outcome(model, X_input):
     
     # Kansvoorspelling maken
     chances = model.predict(X_input_scaled)
-    chance_df = pd.DataFrame(chances_p, columns=['niet lopen', 'lopen', 'dood'])
+    chance_df = pd.DataFrame(chances, columns=['niet lopen', 'lopen', 'dood'])
     return chance_df
 
 # Streamlit applicatie
