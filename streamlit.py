@@ -679,7 +679,6 @@ def predict_outcome(model, X_input):
     
     # Kansvoorspelling maken
     chances = model.predict(X_input_scaled)
-    chances_p = chances * 100
     chance_df = pd.DataFrame(chances_p, columns=['niet lopen', 'lopen', 'dood'])
     return chance_df
 
@@ -717,7 +716,7 @@ if st.button('Voorspelling maken'):
     
     # Toon de voorspelling
     st.write("Kans op uitkomst:")
-    st.write(prediction_result)
+    # st.write(prediction_result)
     
     # Resultaten in percentage tonen
     col1, col2, col3 = st.columns(3)
