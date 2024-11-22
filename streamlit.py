@@ -709,6 +709,8 @@ input_data = pd.DataFrame({
     'CNI_e_1.0': [1 if hersenzenuw == "Ja" else 0]
 })
 
+st.dataframe(input_data)
+
 # Voorspelling maken
 if st.button('Voorspelling maken'):
     # Verwerk de nieuwe invoer
