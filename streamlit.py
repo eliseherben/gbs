@@ -675,12 +675,12 @@ with open('multinomial_logit_model.pkl', 'rb') as f:
 def predict_outcome(model, X_input):
     # Standaardiseren van de nieuwe invoer
     scaler = StandardScaler()
-    X_input_scaled = scaler.transform(X_input)
+    X_input_scaled = scaler.fit_transform(X_input)
     st.dataframe(X_input)
     st.dataframe(X_input_scaled)
     
     # Kansvoorspelling maken
-    chances = model.predict(X_input)
+    chances = model.predict(X_input_scaled)
     chance_df = pd.DataFrame(chances, columns=['niet lopen', 'lopen', 'dood'])
     return chance_df
 
