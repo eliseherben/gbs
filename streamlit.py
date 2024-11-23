@@ -658,30 +658,47 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 import statsmodels.api as sm
 import pickle
+from statsmodels.tools.tools import add_constant
 
 # Functie voor het laden van de dataset en het model (je kunt je model hier laden of trainen)
 # Hier gaan we uit van een geladen 'final_result' van je eerdere model (Multinomial Logit)
 # En de benodigde variabelen voor de voorspelling
 
 # Inladen van het model en de dataset
-with open('multinomial_logit_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+# with open('multinomial_logit_model.pkl', 'rb') as f:
+#     model = pickle.load(f)
 
 # with open('data_X_combined_selected.pkl', 'rb') as f:
 #     X_combined_selected = pickle.load(f)
 #     y_combined = pickle.load(f)
     
+    
+df = pd.read_csv("df_streamlit.csv", index_col=0)
+
 # Functie voor voorspelling
-def predict_outcome(model, X_input):
-    # Standaardiseren van de nieuwe invoer
+def predict_outcome(df, X_input):
+    X = df.drop(columns=['Uitkomst'])
+    y = df['Uitkomst']
+
     scaler = StandardScaler()
-    X_input_scaled = scaler.fit_transform(X_input)
-    st.dataframe(X_input)
-    st.dataframe(X_input_scaled)
+    X_scaled = scaler.fit_transform(X)
+
+    X_const = add_constant(X_scaled) 
+    
+    y = y.astype('category')
+    y = y.cat.reorder_categories([1, 0, 2], ordered=True)
+
+    model = sm.MNLogit(y, X_const)
+    result = model.fit(method='lbfgs')
+    
+    # Standaardiseren van de nieuwe invoer
+    X_input_scaled = scaler.transform(X_input)
+    
+    X_input_const = add_constant(X_input_scaled, has_constant='add') 
     
     # Kansvoorspelling maken
-    chances = model.predict(X_input_scaled)
-    chance_df = pd.DataFrame(chances, columns=['niet lopen', 'lopen', 'dood'])
+    chances = result.predict(X_input_const)
+    chance_df = pd.DataFrame(chances, columns=['lopen','niet lopen', 'dood'])
     return chance_df
 
 # Streamlit applicatie
@@ -700,21 +717,20 @@ hersenzenuw = st.selectbox('Uitval/aantasting hersenzenuwen bij binnenkomst', op
 # Voorbeeld dataframe met de nieuwe observatie
 input_data = pd.DataFrame({
     'Age': [leeftijd],
-    'Sex': [1 if geslacht == 'Vrouw' else 0],
     'MRC_sum_e': [spierkracht_e],
     'MRC_sum_w1': [spierkracht_w1],
-    'Pain_e_1.0': [1 if pijn == "Ja" else 0],
-    'Sens_deficits_w1_2.0': [1 if gevoelsstoornis_w1 == "nvt" else 0],
-    'Sens_deficits_w1_1.0': [1 if gevoelsstoornis_w1 == "Ja" else 0],
     'Sens_deficits_e_2.0': [1 if gevoelsstoornis_e == "nvt" else 0],
-    'CNI_e_1.0': [1 if hersenzenuw == "Ja" else 0]
+    'Sens_deficits_w1_1.0': [1 if gevoelsstoornis_w1 == "Ja" else 0],
+    'Sens_deficits_w1_2.0': [1 if gevoelsstoornis_w1 == "nvt" else 0],
+    'CNI_e_1.0': [1 if hersenzenuw == "Ja" else 0],
+    'Pain_e_1.0': [1 if pijn == "Ja" else 0]
 })
 
 # Voorspelling maken
 if st.button('Voorspelling maken'):
     # Verwerk de nieuwe invoer
     # We gaan ervan uit dat je het model in `final_result` hebt getraind en klaar hebt staan
-    prediction_result = predict_outcome(model, input_data)
+    prediction_result = predict_outcome(df, input_data)
     
     # Toon de voorspelling
     st.write("Kans op uitkomst:")
@@ -725,4 +741,8 @@ if st.button('Voorspelling maken'):
     col1.metric(label="Kans op **niet** zelfstandig kunnen lopen", value=f"{prediction_result['niet lopen'][0]:.2%}")
     col2.metric(label="Kans op zelfstandig kunnen lopen", value=f"{prediction_result['lopen'][0]:.2%}")
     col3.metric(label="Kans op overlijden", value=f"{prediction_result['dood'][0]:.2%}")
+
+if st.button('Nieuwe voorspelling maken'):
+    st.session_state.clear()
+    st.rerun()
 
