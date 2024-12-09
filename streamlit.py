@@ -494,7 +494,7 @@ if st.session_state._modelkeuze == "Model 1: basismodel" and st.session_state._s
     })
  
     if st.button('Voorspelling maken'):
-        if None in [leeftijd, spierkracht_e, spierkracht_w1, geslacht, gevoelsstoornis_e, 
+        if None in [leeftijd, spierkracht_e, spierkracht_w1, gevoelsstoornis_e, 
                     gevoelsstoornis_w1, GBSDS_w1]:
             st.error('Vul alle velden in om een voorspelling te maken.')
 
@@ -566,8 +566,8 @@ if st.session_state._modelkeuze == "Model 1: basismodel" and st.session_state._s
     })
  
     if st.button('Voorspelling maken'):
-        if None in [leeftijd, spierkracht_e, spierkracht_w1, geslacht, buikgriep, cni_e, cni_facial_e, cni_oculomotor_e, 
-                    cni_facial_w1, pain_e, gevoelsstoornis_e, gevoelsstoornis_w1, comporbidity_respiration, GBSDS_e, GBSDS_w1, country]:
+        if None in [leeftijd, spierkracht_e, spierkracht_w1, cni_e, cni_facial_e, cni_oculomotor_e, 
+                    cni_facial_w1, pain_e, gevoelsstoornis_e, gevoelsstoornis_w1, comporbidity_respiration, andere_infectie, GBSDS_e, GBSDS_w1, country]:
             st.error('Vul alle velden in om een voorspelling te maken.')
 
         prediction_result = predict_outcome(df, input_data)
@@ -611,7 +611,7 @@ if st.session_state._modelkeuze == "Model 2: interactietermen" and st.session_st
     })
  
     if st.button('Voorspelling maken'):
-        if None in [leeftijd, spierkracht_e, spierkracht_w1, geslacht, gevoelsstoornis_e, GBSDS_e, cni_w1, gevoelsstoornis_w1]:
+        if None in [leeftijd, spierkracht_e, gevoelsstoornis_e, gevoelsstoornis_w1, cni_w1, GBSDS_e]:
             st.error('Vul alle velden in om een voorspelling te maken.')
 
         prediction_result = predict_outcome(df, input_data)
@@ -687,9 +687,9 @@ if st.session_state._modelkeuze == "Model 2: interactietermen" and st.session_st
     })
  
     if st.button('Voorspelling maken'):
-        if None in [leeftijd, geslacht, spierkracht_e, spierkracht_w1, cni_w1, cni_bulbar_e, cni_bulbar_w1, cni_oculomotor_e, 
-        cni_facial_w1, pain_e, pain_w1, GBSDS_e, GBSDS_w1, gevoelsstoornis_e, gevoelsstoornis_w1, lopen_e, lopen_w1, 
-        comporbidity_respiration, infectie, protein_level, country]:
+        if None in [leeftijd, spierkracht_e, cni_w1, cni_bulbar_e, cni_bulbar_w1, cni_oculomotor_e, 
+        cni_facial_w1, pain_e, pain_w1, GBSDS_e, GBSDS_w1, gevoelsstoornis_e, gevoelsstoornis_w1, lopen_e, 
+        comporbidity_respiration, infectie, country, continent]:
             st.error('Vul alle velden in om een voorspelling te maken.')
 
         prediction_result = predict_outcome(df, input_data)
