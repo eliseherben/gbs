@@ -476,22 +476,20 @@ if st.session_state._modelkeuze == "Model 1: basismodel" and st.session_state._s
     df = pd.read_csv("df_streamlit_1.1.csv", index_col=0)
 
     leeftijd = st.number_input('Leeftijd', min_value=2, max_value=100, value=None, step=1, format="%d", key='_Age', on_change = set_Age, placeholder='Voer de leeftijd in')
-    geslacht = st.selectbox('Geslacht', options=['Man', 'Vrouw'], index=None, key='_Sex', on_change = set_Sex, placeholder='Selecteer het geslacht')
     spierkracht_e = st.number_input('Spierkracht bij binnenkomst', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_e', on_change = set_MRC_sum_e, placeholder='Voer de spierkracht bij binnenkomst in')
     spierkracht_w1 = st.number_input('Spierkracht bij week 1', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_w1', on_change = set_MRC_sum_w1, placeholder='Voer de spierkracht bij week 1 in')
+    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
+    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
     GBSDS_w1 = st.selectbox('GBS disability score bij week 1', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
                                                                      '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
                                                                      '6: overleden', '7: onbekend'], index=None, key='_GBSDS_w1', on_change = set_GBSDS_w1, placeholder = 'Selecteer wat de GBS disability score bij week 1 was')
-    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
-    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
-
     input_data = pd.DataFrame({
         'Age': [leeftijd],
         'MRC_sum_e': [spierkracht_e],
         'MRC_sum_w1': [spierkracht_w1],
-        'Sens_deficits_e_2.0': [1 if gevoelsstoornis_e == "nvt" else 0],
+        'Sens_deficits_e_2.0': [1 if gevoelsstoornis_e == "Onbekend" else 0],
         'Sens_deficits_w1_1.0': [1 if gevoelsstoornis_w1 == "Ja" else 0],
-        'Sens_deficits_w1_2.0': [1 if gevoelsstoornis_w1 == "nvt" else 0],
+        'Sens_deficits_w1_2.0': [1 if gevoelsstoornis_w1 == "Onbekend" else 0],
         'GBSDS_w1_7.0': [1 if GBSDS_w1 == "7: Onbekend" else 0]
     })
  
@@ -523,48 +521,48 @@ if st.session_state._modelkeuze == "Model 1: basismodel" and st.session_state._s
     df = pd.read_csv("df_streamlit_1.2.csv", index_col=0)
 
     leeftijd = st.number_input('Leeftijd', min_value=2, max_value=100, value=None, step=1, format="%d", key='_Age', on_change = set_Age, placeholder='Voer de leeftijd in')
-    geslacht = st.selectbox('Geslacht', options=['Man', 'Vrouw'], index=None, key='_Sex', on_change = set_Sex, placeholder='Selecteer het geslacht')
     spierkracht_e = st.number_input('Spierkracht bij binnenkomst', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_e', on_change = set_MRC_sum_e, placeholder='Voer de spierkracht bij binnenkomst in')
     spierkracht_w1 = st.number_input('Spierkracht bij week 1', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_w1', on_change = set_MRC_sum_w1, placeholder='Voer de spierkracht bij week 1 in')
-    GBSDS_w1 = st.selectbox('GBS disability score bij week 1', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
-                                                                     '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
-                                                                     '6: overleden', '7: onbekend'], index=None, key='_GBSDS_w1', on_change = set_GBSDS_w1, placeholder = 'Selecteer wat de GBS disability score bij week 1 was')
-    GBSDS_e = st.selectbox('GBS disability score bij binnenkomst', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
-                                                                     '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
-                                                                     '6: overleden', '7: onbekend'], index=None, key='_GBSDS_e', on_change = set_GBSDS_e, placeholder = 'Selecteer wat de GBS disability score bij binnenkomst was')
-    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
-    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
     cni_e = st.selectbox('Uitval/aantasting hersenzenuwen bij binnenkomst', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_e', on_change = set_CNI_e, placeholder = 'Selecteer of er sprake was van uitval/aantasting van één of meer hersenzenuwen bij binnenkomst')
     cni_facial_e = st.selectbox('Zwakte van aangezichtsspieren bij binnenkomst', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_Facial_e', on_change = set_CNI_Facial_e, placeholder = 'Selecteer of er sprake was van zwakte van aangezichtsspieren bij binnenkomst')
     cni_facial_w1 = st.selectbox('Zwakte van aangezichtsspieren bij week 1', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_Facial_w1', on_change = set_CNI_Facial_w1, placeholder = 'Selecteer of er sprake was van zwakte van aangezichtsspieren bij week 1')
     cni_oculomotor_e = st.selectbox('Zwakte van oogbolspieren bij binnenkomst', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_Oculomotor_e', on_change = set_CNI_Oculomotor_e, placeholder = 'Selecteer of er sprake was van zwakte van oogbolspieren bij binnenkomst')
-    pain_e = st.selectbox('Pijn bij binnenkomst', options=['Nee', 'Ja'], index=None, key='_Pain_e', on_change = set_Pain_e, placeholder = 'Selecteer of er sprake was van pijn bij binnenkomst')
-    comporbidity_respiration = st.selectbox('Luchtwegklachten', options=['Nee', 'Ja'], index=None, key='_Comorbidity_respiration', on_change = set_Comorbidity_respiration, placeholder = 'Selecteer of er sprake was van luchtwegklachten zoals bijv astma of COPD')
+    pain_e = st.selectbox('Pijn bij binnenkomst', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Pain_e', on_change = set_Pain_e, placeholder = 'Selecteer of er sprake was van pijn bij binnenkomst')
+    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
+    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
+    comporbidity_respiration = st.selectbox('Luchtwegklachten', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Comorbidity_respiration', on_change = set_Comorbidity_respiration, placeholder = 'Selecteer of er sprake was van luchtwegklachten zoals bijv astma of COPD')
+    andere_infectie = st.selectbox('Voorgaande andere infectie (anders dan buikgriep en luchtweginfectie)', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Ant_event_other', on_change = set_Ant_event_other, placeholder = 'Selecteer of er sprake was van een voorgaande infectie anders dan buikgriep of luchtweginfectie')
+    GBSDS_e = st.selectbox('GBS disability score bij binnenkomst', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
+                                                                     '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
+                                                                     '6: overleden', '7: onbekend'], index=None, key='_GBSDS_e', on_change = set_GBSDS_e, placeholder = 'Selecteer wat de GBS disability score bij binnenkomst was')
+    GBSDS_w1 = st.selectbox('GBS disability score bij week 1', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
+                                                                     '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
+                                                                     '6: overleden', '7: onbekend'], index=None, key='_GBSDS_w1', on_change = set_GBSDS_w1, placeholder = 'Selecteer wat de GBS disability score bij week 1 was')
     country = st.selectbox('Land waar patiënt geïncludeerd is', options=['Nederland', 'Verenigd Koninkrijk', 'Duitsland', 'België', 'Denemarken', 
                                                                          'Italië', 'Spanje', 'Frankrijk', 'Griekenland', 'Zwitserland', 
                                                                          'Verenigde Staten', 'Canada', 'Argentinië', 'Brazilië', 'Japan', 
                                                                          'Taiwan', 'Maleisië', 'China', 'Bangladesh', 'Australië', 'Zuid-Afrika'], index=None, key='_Country_of_inclusion', on_change = set_Country_of_inclusion, placeholder = 'Selecteer het land waarin de patiënt geïncludeerd is')
-    buikgriep = st.selectbox('Voorgaande infectie: buikgriep', options=['Nee', 'Ja'], index=None, key='_Ant_event_GE', on_change = set_Ant_event_GE, placeholder = 'Selecteer of er sprake was van een voorgaande buikgriep')
 
 
     input_data = pd.DataFrame({
         'Age': [leeftijd],
         'MRC_sum_e': [spierkracht_e],
         'MRC_sum_w1': [spierkracht_w1],
-        'Ant_event_GE': [1 if buikgriep == "Ja" else 0],
         'CNI_e_1.0': [1 if cni_e == "Ja" else 0],
         'CNI_Facial_e_1.0': [1 if cni_facial_e == "Ja" else 0],
         'CNI_Oculomotor_e_1.0' : [1 if cni_oculomotor_e == "Ja" else 0],
         'CNI_Facial_w1_1.0' : [1 if cni_facial_w1 == "Ja" else 0],
         'Pain_e_1.0' : [1 if pain_e == "Ja" else 0],
-        'Sens_deficits_e_2.0': [1 if gevoelsstoornis_e == "nvt" else 0],
+        'Sens_deficits_e_2.0': [1 if gevoelsstoornis_e == "Onbekend" else 0],
         'Sens_deficits_w1_1.0': [1 if gevoelsstoornis_w1 == "Ja" else 0],
-        'Sens_deficits_w1_2.0': [1 if gevoelsstoornis_w1 == "nvt" else 0],
+        'Sens_deficits_w1_2.0': [1 if gevoelsstoornis_w1 == "Onbekend" else 0],
         'Comorbidity_respiration_1.0' : [1 if comporbidity_respiration == "Ja" else 0],
+        'Ant_event_other_2.0': [1 if andere_infectie == "Onbekend" else 0],
         'GBSDS_e_2.0': [1 if GBSDS_e == "2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen" else 0],
         'GBSDS_e_5.0': [1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0],
         'GBSDS_w1_2.0': [1 if GBSDS_w1 == "2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen" else 0], 
         'Country_of_inclusion_4': [1 if country == "België" else 0], 
+        'Country_of_inclusion_13': [1 if country == "Argentinië" else 0]
     })
  
     if st.button('Voorspelling maken'):
@@ -595,24 +593,21 @@ if st.session_state._modelkeuze == "Model 2: interactietermen" and st.session_st
     df = pd.read_csv("df_streamlit_2.1.csv", index_col=0)
 
     leeftijd = st.number_input('Leeftijd', min_value=2, max_value=100, value=None, step=1, format="%d", key='_Age', on_change = set_Age, placeholder='Voer de leeftijd in')
-    geslacht = st.selectbox('Geslacht', options=['Man', 'Vrouw'], index=None, key='_Sex', on_change = set_Sex, placeholder='Selecteer het geslacht')
     spierkracht_e = st.number_input('Spierkracht bij binnenkomst', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_e', on_change = set_MRC_sum_e, placeholder='Voer de spierkracht bij binnenkomst in')
-    spierkracht_w1 = st.number_input('Spierkracht bij week 1', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_w1', on_change = set_MRC_sum_w1, placeholder='Voer de spierkracht bij week 1 in')
+    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
+    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
+    cni_w1 = st.selectbox('Uitval/aantasting hersenzenuwen bij week 1', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_w1', on_change = set_CNI_w1, placeholder = 'Selecteer of er sprake was van uitval/aantasting van één of meer hersenzenuwen bij week 1')
     GBSDS_e = st.selectbox('GBS disability score bij binnenkomst', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
                                                                      '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
-                                                                     '6: overleden', '7: onbekend'], index=None, key='_GBSDS_e', on_change = set_GBSDS_e, placeholder = 'Selecteer wat de GBS disability score bij binnenkomst was')
-    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
-    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
-    cni_w1 = st.selectbox('Uitval/aantasting hersenzenuwen bij week 1', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_w1', on_change = set_CNI_w1, placeholder = 'Selecteer of er sprake was van uitval/aantasting van één of meer hersenzenuwen bij week 1')
-
+                                                                     '6: overleden', '7: onbekend'], index=None, key='_GBSDS_e', on_change = set_GBSDS_e, placeholder = 'Selecteer wat de GBS disability score bij binnenkomst was')    
+    
     input_data = pd.DataFrame({
         'Age': [leeftijd],
         'MRC_sum_e': [spierkracht_e],
-        'MRC_sum_w1': [spierkracht_w1],
         'Sens_deficits_e_1.0': [1 if gevoelsstoornis_e == "Ja" else 0],
-        'MRC_sum_e_GBSDS_e_5.0_interaction': [(spierkracht_e if spierkracht_e != None else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)],
+        'CNI_w1_1.0_Sens_deficits_w1_2.0_interaction': [(1 if cni_w1 == "Ja" else 0) * (1 if gevoelsstoornis_e == "Onbekend" else 0)],
         'CNI_w1_2.0_GBSDS_e_4.0_interaction': [(1 if cni_w1 == "Niet mogelijk te bepalen" else 0) * (1 if GBSDS_e == "4: bedlegerig of stoelgebonden" else 0)],
-        'Sens_deficits_w1_1.0_GBSDS_e_5.0_interaction': [(1 if gevoelsstoornis_w1 == "Ja" else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)]
+        'CNI_w1_2.0_GBSDS_e_5.0_interaction': [(1 if cni_w1 == "Niet mogelijk te bepalen" else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)]
     })
  
     if st.button('Voorspelling maken'):
@@ -642,63 +637,53 @@ if st.session_state._modelkeuze == "Model 2: interactietermen" and st.session_st
     df = pd.read_csv("df_streamlit_2.2.csv", index_col=0)
 
     leeftijd = st.number_input('Leeftijd', min_value=2, max_value=100, value=None, step=1, format="%d", key='_Age', on_change = set_Age, placeholder='Voer de leeftijd in')
-    geslacht = st.selectbox('Geslacht', options=['Man', 'Vrouw'], index=None, key='_Sex', on_change = set_Sex, placeholder='Selecteer het geslacht')
     spierkracht_e = st.number_input('Spierkracht bij binnenkomst', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_e', on_change = set_MRC_sum_e, placeholder='Voer de spierkracht bij binnenkomst in')
-    spierkracht_w1 = st.number_input('Spierkracht bij week 1', min_value=0, max_value=60, value=None, step=1, format="%d", key='_MRC_sum_w1', on_change = set_MRC_sum_w1, placeholder='Voer de spierkracht bij week 1 in')
     cni_w1 = st.selectbox('Uitval/aantasting hersenzenuwen bij week 1', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_w1', on_change = set_CNI_w1, placeholder = 'Selecteer of er sprake was van uitval/aantasting van één of meer hersenzenuwen bij week 1')
     cni_bulbar_e = st.selectbox('Spraak- en slikstoornissen bij binnenkomst', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_Bulbar_e', on_change = set_CNI_Bulbar_e, placeholder = 'Selecteer of er sprake was van spraak- en slikstoornissen bij binnenkomst')
     cni_bulbar_w1 = st.selectbox('Spraak- en slikstoornissen bij week 1', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_Bulbar_w1', on_change = set_CNI_Bulbar_w1, placeholder = 'Selecteer of er sprake was van spraak- en slikstoornissen bij week 1')
     cni_oculomotor_e = st.selectbox('Zwakte van oogbolspieren bij binnenkomst', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_Oculomotor_e', on_change = set_CNI_Oculomotor_e, placeholder = 'Selecteer of er sprake was van zwakte van oogbolspieren bij binnenkomst')
     cni_facial_w1 = st.selectbox('Zwakte van aangezichtsspieren bij week 1', options=['Nee', 'Ja', 'Niet mogelijk te bepalen'], index=None, key='_CNI_Facial_w1', on_change = set_CNI_Facial_w1, placeholder = 'Selecteer of er sprake was van zwakte van aangezichtsspieren bij week 1')
-    pain_e = st.selectbox('Pijn bij binnenkomst', options=['Nee', 'Ja'], index=None, key='_Pain_e', on_change = set_Pain_e, placeholder = 'Selecteer of er sprake was van pijn bij binnenkomst')
-    pain_w1 = st.selectbox('Pijn bij week 1', options=['Nee', 'Ja'], index=None, key='_Pain_w1', on_change = set_Pain_w1, placeholder = 'Selecteer of er sprake was van pijn bij week 1')
+    pain_e = st.selectbox('Pijn bij binnenkomst', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Pain_e', on_change = set_Pain_e, placeholder = 'Selecteer of er sprake was van pijn bij binnenkomst')
+    pain_w1 = st.selectbox('Pijn bij week 1', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Pain_w1', on_change = set_Pain_w1, placeholder = 'Selecteer of er sprake was van pijn bij week 1')
     GBSDS_e = st.selectbox('GBS disability score bij binnenkomst', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
                                                                      '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
                                                                      '6: overleden', '7: onbekend'], index=None, key='_GBSDS_e', on_change = set_GBSDS_e, placeholder = 'Selecteer wat de GBS disability score bij binnenkomst was')
     GBSDS_w1 = st.selectbox('GBS disability score bij week 1', options=['0: gezond', '1: weinig symptomen en in staat om te rennen', '2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen', 
                                                                      '3: in staat om 10 meter te lopen in een open ruimte met hulp', '4: bedlegerig of stoelgebonden', '5: ondersteuning nodig bij ademen, minimaal een deel van de dag', 
                                                                      '6: overleden', '7: onbekend'], index=None, key='_GBSDS_w1', on_change = set_GBSDS_w1, placeholder = 'Selecteer wat de GBS disability score bij week 1 was')
-    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
-    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
-    lopen_e = st.selectbox('Vermogen om te lopen bij binnenkomst', options=['Nee', 'Ja'], index=None, key='_Able_to_walk_e', on_change = set_Able_to_walk_e, placeholder = 'Selecteer of er de patiënt kon lopen bij binnenkomst')
-    lopen_w1 = st.selectbox('Vermogen om te lopen bij week 1', options=['Nee', 'Ja'], index=None, key='_Able_to_walk_w1', on_change = set_Able_to_walk_w1, placeholder = 'Selecteer of er de patiënt kon lopen bij week 1')
-    comporbidity_respiration = st.selectbox('Luchtwegklachten', options=['Nee', 'Ja'], index=None, key='_Comorbidity_respiration', on_change = set_Comorbidity_respiration, placeholder = 'Selecteer of er sprake was van luchtwegklachten zoals bijv astma of COPD')
-    infectie = st.selectbox('Voorgaande infectie', options=['Nee', 'Ja'], index=None, key='_Ant_event', on_change = set_Ant_event, placeholder = 'Selecteer of er sprake was van een voorgaande infectie')
-    protein_level = st.number_input('Eiwitgehalte in hersenvocht', value=None, key='_CSF_protein_level', on_change = set_CSF_protein_level, placeholder='Voer de eiwitgehalte in hersenvocht in g/L in')
+    gevoelsstoornis_e = st.selectbox('Gevoelsstoornis bij binnenkomst', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Sens_deficits_e', on_change = set_Sens_deficits_e, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij binnenkomst')
+    gevoelsstoornis_w1 = st.selectbox('Gevoelsstoornis bij week 1', options=['Nee', 'Ja'. 'Onbekend'], index=None, key='_Sens_deficits_w1', on_change = set_Sens_deficits_w1, placeholder = 'Selecteer of er sprake was van een gevoelsstoornis bij week 1')
+    lopen_e = st.selectbox('Vermogen om te lopen bij binnenkomst', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Able_to_walk_e', on_change = set_Able_to_walk_e, placeholder = 'Selecteer of er de patiënt kon lopen bij binnenkomst')
+    comporbidity_respiration = st.selectbox('Luchtwegklachten', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Comorbidity_respiration', on_change = set_Comorbidity_respiration, placeholder = 'Selecteer of er sprake was van luchtwegklachten zoals bijv astma of COPD')
+    infectie = st.selectbox('Voorgaande infectie', options=['Nee', 'Ja', 'Onbekend'], index=None, key='_Ant_event', on_change = set_Ant_event, placeholder = 'Selecteer of er sprake was van een voorgaande infectie')
     country = st.selectbox('Land waar patiënt geïncludeerd is', options=['Nederland', 'Verenigd Koninkrijk', 'Duitsland', 'België', 'Denemarken', 
                                                                          'Italië', 'Spanje', 'Frankrijk', 'Griekenland', 'Zwitserland', 
                                                                          'Verenigde Staten', 'Canada', 'Argentinië', 'Brazilië', 'Japan', 
                                                                          'Taiwan', 'Maleisië', 'China', 'Bangladesh', 'Australië', 'Zuid-Afrika'], index=None, key='_Country_of_inclusion', on_change = set_Country_of_inclusion, placeholder = 'Selecteer het land waarin de patiënt geïncludeerd is')
+    continent = st.selectbox('Continent waar patiënt vandaan komt', options=['Europa', 'Noord-Amerika', 'Zuid-Amerika', 'Azië', 'Bangladesh', 'Anders'], index=None, key='_Continent', on_change = set_Continent, placeholder = 'Selecteer het continent waar patiënt vandaan komt')
+    
     
     input_data = pd.DataFrame({
         'Age': [leeftijd],
         'MRC_sum_e': [spierkracht_e],
-        'Ant_event': [1 if infectie == "Ja" else 0],
         'Sens_deficits_e_1.0': [1 if gevoelsstoornis_e == "Ja" else 0],
         'Comorbidity_respiration_1.0' : [1 if comporbidity_respiration == "Ja" else 0],
-        'GBSDS_e_3.0': [1 if GBSDS_e == "3: in staat om 10 meter te lopen in een open ruimte met hulp" else 0],
-        'GBSDS_w1_3.0': [1 if GBSDS_w1 == "3: in staat om 10 meter te lopen in een open ruimte met hulp" else 0],
+        'Ant_event_2.0': [1 if infectie == "Onbekend" else 0],
+        'Continent_3': [1 if continent == 'Zuid-Amerika' else 0], 
         'Country_of_inclusion_4': [1 if country == "België" else 0], 
-        'Sex_Able_to_walk_w1_1.0_interaction': [(1 if geslacht == "Man" else 0) * (1 if lopen_e == "Ja" else 0)], 
-        'Sex_GBSDS_e_4.0_interaction': [(1 if geslacht == "Man" else 0) * (1 if GBSDS_e == "4: bedlegerig of stoelgebonden" else 0)], 
-        'MRC_sum_e_GBSDS_e_5.0_interaction': [(spierkracht_e if spierkracht_e != None else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)], 
-        'MRC_sum_w1_GBSDS_w1_5.0_interaction': [(spierkracht_w1 if spierkracht_w1 != None else 0) * (1 if GBSDS_w1 == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)],
-        'CSF_protein_level_Country_of_inclusion_13_interaction': [(protein_level if protein_level != None else 0) * (1 if country == "Argentinië" else 0)],
         'CNI_Bulbar_e_1.0_GBSDS_e_4.0_interaction': [(1 if cni_bulbar_e == "Ja" else 0) * (1 if GBSDS_e == "4: bedlegerig of stoelgebonden" else 0)], 
         'CNI_Oculomotor_e_1.0_Pain_w1_1.0_interaction': [(1 if cni_oculomotor_e == "Ja" else 0) * (1 if pain_w1 == "Ja" else 0)],
-        'CNI_w1_1.0_Sens_deficits_w1_1.0_interaction': [(1 if cni_w1 == "Ja" else 0) * (1 if gevoelsstoornis_w1 == "Ja" else 0)],
         'CNI_w1_1.0_Sens_deficits_w1_2.0_interaction': [(1 if cni_w1 == "Ja" else 0) * (1 if gevoelsstoornis_w1 == "nvt" else 0)],
-        'CNI_w1_1.0_GBSDS_w1_4.0_interaction': [(1 if cni_w1 == "Ja" else 0) * (1 if GBSDS_w1 == "4: bedlegerig of stoelgebonden" else 0)],
         'CNI_w1_2.0_Pain_e_1.0_interaction': [(1 if cni_w1 == "Niet mogelijk te bepalen" else 0) * (1 if pain_e == "Ja" else 0)],
         'CNI_w1_2.0_GBSDS_e_4.0_interaction': [(1 if cni_w1 == "Niet mogelijk te bepalen" else 0) * (1 if GBSDS_e == "4: bedlegerig of stoelgebonden" else 0)],
+        'CNI_w1_2.0_GBSDS_e_5.0_interaction': [(1 if cni_w1 == "Niet mogelijk te bepalen" else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)],
         'CNI_Bulbar_w1_1.0_Pain_w1_1.0_interaction': [(1 if cni_bulbar_w1 == "Ja" else 0) * (1 if pain_e == "Ja" else 0)],
+        'CNI_Facial_w1_1.0_Sens_deficits_e_1.0_interaction': [(1 if cni_facial_w1 == "Ja" else 0) * (1 if gevoelsstoornis_e == "Ja" else 0)],
         'CNI_Facial_w1_1.0_GBSDS_e_4.0_interaction': [(1 if cni_facial_w1 == "Ja" else 0) * (1 if GBSDS_e == "4: bedlegerig of stoelgebonden" else 0)],
-        'Pain_w1_1.0_Sens_deficits_w1_2.0_interaction': [(1 if pain_w1 == "Ja" else 0) * (1 if gevoelsstoornis_w1 == "nvt" else 0)],
-        'Pain_w1_1.0_Able_to_walk_w1_1.0_interaction': [(1 if pain_w1 == "Ja" else 0) * (1 if lopen_w1 == "Ja" else 0)],
-        'Sens_deficits_e_2.0_GBSDS_e_5.0_interaction': [(1 if gevoelsstoornis_e == "nvt" else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)],
-        'Sens_deficits_w1_1.0_GBSDS_e_5.0_interaction': [(1 if gevoelsstoornis_w1 == "Ja" else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)],
+        'Pain_w1_1.0_GBSDS_e_4.0_interaction': [(1 if pain_w1 == "Ja" else 0) * (1 if GBSDS_e == "4: bedlegerig of stoelgebonden" else 0)],
+        'Sens_deficits_e_2.0_GBSDS_e_5.0_interaction': [(1 if gevoelsstoornis_e == "Onbekend" else 0) * (1 if GBSDS_e == "5: ondersteuning nodig bij ademen, minimaal een deel van de dag" else 0)],
         'Sens_deficits_w1_2.0_Country_of_inclusion_6_interaction': [(1 if gevoelsstoornis_w1 == "nvt" else 0) * (1 if country == "Italië" else 0)],
-        'Able_to_walk_e_1.0_GBSDS_w1_4.0_interaction': [(1 if lopen_e == "Ja" else 0) * (1 if GBSDS_w1 == "4: bedlegerig of stoelgebonden" else 0)],
+        'Able_to_walk_e_1.0_GBSDS_w1_2.0_interaction': [(1 if lopen_e == "Ja" else 0) * (1 if GBSDS_w1 == "2: in staat om minimaal 10 meter te lopen zonder hulp, maar niet in staat om te rennen" else 0)]
     })
  
     if st.button('Voorspelling maken'):
